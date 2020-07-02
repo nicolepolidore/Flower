@@ -16,7 +16,7 @@ void loop(){
 
    switch(signalState){
     
-  case PETAL:
+  case PETAL: //petal is really game state
     petalLoop();
     break;
 
@@ -38,15 +38,32 @@ void petalLoop(){
   if(buttonDown()){
     isPetal = true;
   }
-}
+ 
+  }
+
 
 void centerLoop(){
-  if(centerTimer.isExpired()){
-    setColorOnFace(RED,1);
-  }else{
+  int timeProgress = millis() % TIMER_LENGTH;
+  
+  if(!centerTimer.isExpired()){ //if timer is expired
+    int timeProgress = centerTimer.getRemaining();
+  }
+      setColorOnFace(RED,1);
+
+  if(buttonDown()){
     setColor(CYAN);
   }
-}
+//  FOREACH_FACE(f){
+//      if(!isValueReceivedOnFaceExpired(f)){
+//
+//        byte neighbor = getLastValueReceivedOnFace(f);
+//
+//        if(neighbor == buttonDown()){
+//          setColor(CYAN);
+//        }
+    }
+
+
 
 void displaySignalState(){
   switch(signalState){
