@@ -26,9 +26,16 @@ byte clicks = 1;
 void setup(){
   bugTimer.set(TIMER_LENGTH);
   waitTimer.set(WAIT_TIMER);
+  randomize(); 
 }
 
 void loop(){
+  
+  if(buttonLongPressed()){ //setting the center to yellow
+    longPressing = true;
+    gameState = CENTER;
+  }
+
 
    switch(gameState){
     
@@ -50,6 +57,7 @@ void loop(){
    centerLoop();
    break;
   }
+  buttonLongPressed();
   
   displaySignalState();
 
@@ -59,15 +67,10 @@ void loop(){
 void petalLoop(){
 
   
-  if(bugTimer.isExpired()){
-    spawnBug();
-  }
-  
-  if(buttonLongPressed()){ //setting the center to yellow
-    longPressing = true;
-    gameState = CENTER;
-  }
-
+//  if(bugTimer.isExpired()){
+//    spawnBug();
+//  }
+//  
   if(waitTimer.isExpired()){
     spawnBug();
   }
@@ -81,17 +84,16 @@ void petalLoop(){
   //I definetely want to add "stronger" bugs, meaning you have to click them 3 times in order to kill them
   
 void spawnBug(){
- if( bugTimer.isExpired()){
-     bugLvl=2;
+
+
+if (random(1) == 0) {
+    bugLvl = 2;
     gameState = BUG2;
-    
- }else{
-  gameState = PETAL;
- }
- if(waitTimer.isExpired()){
-  bugLvl=1;
-  gameState = BUG;
- }
+  } else {
+    bugLvl = 1;
+    gameState = BUG;
+  }
+
 
 }
 
@@ -112,7 +114,7 @@ void killBug(){
      bugLvl=2;
      clicks = 2;
     isAttacked = true;
-    bugTimer.set(TIMER_LENGTH);
+    waitTimer.set(WAIT_TIMER);
     
   } 
   return;
